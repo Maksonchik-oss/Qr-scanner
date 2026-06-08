@@ -79,3 +79,12 @@ jupyter notebook
 
 ШАГ 8. Пользуйтесь программой
 После запуска откроется окно программы. Нажмите SCAN FOLDER.
+
+⚠️ ВОЗМОЖНЫЕ ОШИБКИ И РЕШЕНИЯ
+Ошибка	Решение
+ModuleNotFoundError: No module named 'cv2'	Выполнить pip install opencv-python в командной строке, перезапустить Jupyter
+ModuleNotFoundError: No module named 'PIL'	Выполнить pip install pillow
+ModuleNotFoundError: No module named 'numpy'	Выполнить pip install numpy
+Jupyter не запускается	Выполнить python -m pip install --upgrade pip, затем pip install jupyter
+Нет изображений в папке 'input_qr'	Создать папку input_qr и положить туда картинки
+Окно программы не появилось	Закрыть Jupyter, открыть снова и перезапустить ячейку
