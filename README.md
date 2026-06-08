@@ -99,3 +99,84 @@ jupyter notebook
 
 •Окно программы не появилось	
 •Закрыть Jupyter, открыть снова и перезапустить ячейку
+
+
+БЛОКИ КОДА
+БЛОК 1: Импорт библиотек (строки 1-12)
+import cv2          # распознавание кодов
+import os           # работа с файлами
+import webbrowser   # открытие ссылок
+import threading    # многопоточность
+import tkinter as tk # окна и кнопки
+import sqlite3      # база данных
+from PIL import Image # чтение GIF
+import numpy as np  # преобразование картинок
+
+БЛОК 2: Глобальные переменные (строки 15-22)
+barcode_detector = cv2.barcode.BarcodeDetector()  # детектор штрихкодов
+processing = False           # флаг: идёт ли сканирование
+scanned_qr = set()           # множество отсканированных кодов (против дублей)
+input_folder = "input_qr"    # папка с картинками
+
+БЛОК 3: База данных (строки 25-36)
+connection = sqlite3.connect("qr_database.db")  # подключение к БД
+cursor.execute("CREATE TABLE IF NOT EXISTS qr_codes (...)")  # создание таблицы
+
+БЛОК 4: Обработка ссылок (строки 38-65)
+def handle_qr_data(qr_text):
+    if "t.me/" in qr_text: открыть Telegram
+    elif "http" in qr_text: открыть сайт
+    elif "www." in qr_text: добавить https:// и открыть
+
+БЛОК 5: Сохранение результатов (строки 67-92)
+def save_scan(unique_id, qr_text):
+    if unique_id in scanned_qr: return  # пропустить дубликат
+    scanned_qr.add(unique_id)            # запомнить
+    # сохранить в БД с датой и временем
+    # добавить строку в таблицу на экране
+    handle_qr_data(qr_text)              # открыть ссылку
+
+БЛОК 6: Загрузка  (строки 94-112)
+def load_image_as_cv2(filepath):
+    if файл .gif:
+        # PIL → RGB → NumPy → BGR (для OpenCV)
+    else:
+        return cv2.imread(filepath)
+
+БЛОК 7: Главный алгоритм сканирования (строки 114-172)
+def scan_images_in_folder():
+    files = все картинки из input_qr
+    for каждого файла:
+        img = load_image_as_cv2(файл)
+        
+        # Распознать QR-коды
+        qr_detector.detectAndDecodeMulti(img)
+        
+        # Распознать штрихкоды
+        barcode_detector.detectAndDecode(img)
+        
+        # Сохранить всё, что нашли
+        save_scan(...)
+
+БЛОК 8: Таблица и фильтры (строки 174-240)
+def filter_qr(type):     # ALL / TELEGRAM / URL / TEXT
+def search_qr():         # поиск по всем полям
+def load_all_qr():       # загрузить всё из БД
+
+БЛОК 9: Статистика (строки 242-272)
+def update_stats():
+    # Считаем количество записей в БД
+    total_label.config(text=f"TOTAL\n{количество}")
+    # Считаем Telegram, URL, TEXT
+    root.after(1000, update_stats)  # повторять каждую секунду
+
+БЛОК 10: Создание интерфейса (строки 274-370)
+root = tk.Tk()                    # главное окно
+# Статистика (4 окошка)
+# Левая панель (кнопки: SCAN, CLEAR, EXIT)
+# Правая панель (поиск, фильтры, таблица)
+
+БЛОК 11: Запуск (строки 372-374)
+load_all_qr()      # загрузить историю
+update_stats()     # запустить счётчики
+root.mainloop()    # запустить окно
